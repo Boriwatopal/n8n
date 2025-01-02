@@ -1,3 +1,4 @@
+import './polyfills';
 import type { ErrorReporter } from 'n8n-core';
 import { ensureError, setGlobalState } from 'n8n-workflow';
 import Container from 'typedi';
@@ -55,7 +56,7 @@ void (async function start() {
 
 	if (config.sentryConfig.sentryDsn) {
 		const { ErrorReporter } = await import('n8n-core');
-		errorReporter = new ErrorReporter();
+		errorReporter = Container.get(ErrorReporter);
 		await errorReporter.init('task_runner', config.sentryConfig.sentryDsn);
 	}
 
